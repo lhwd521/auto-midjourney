@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord中Midjourney自动切图与下载
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.22
 // @description  Discord自动点击Midjourney的U1、U2、U3、U4，自动跳过四格图片直接下载大图，满60张会自动下载zip包，不到60张可以点击手动下载。
 // @author       laolu(vx:laolu2045)
 // @match        https://discord.com/channels/*/*
@@ -27,7 +27,7 @@
       for (let i = 0; i < 4; i++) {
         buttonArr[i].click();
         console.log("点击1下U按钮");
-        await sleep(3000); // 在每次点击后等待3秒
+        await sleep(3000); // 在每次点击后等待3秒，1秒=1000
       }
     }
   }
@@ -6692,7 +6692,7 @@
           null
             ? void 0
             : _.textContent;
-        if (A === "Midjourney Bot") return !0;
+        if (A === "Midjourney Bot" || "niji・journey Bot") return !0;
         if (!A) return Ft(c.previousElementSibling);
       }
       function Nt(c) {
@@ -6761,6 +6761,7 @@
       var dt = new vt.default(),
         pt = 0,
         kt = new Set(),
+        //大图打包数量  60张
         Rt = 60,
         xt;
       function Dt(c) {
@@ -6843,8 +6844,12 @@
     await sleep(10000);
 
     let style = document.createElement("style");
+    let style_on = document.createElement("style");
     style.innerText = `.Btn{display:flex;width:90%;height:35px;margin:10px;justify-content: center;align-items: center;background-color: #2b2d31;color: white;font-weight: bolder;border-radius: 20px;box-shadow: 1px 1px 8px #e7ec1acf;}`;
+    style_on.innerText = `.Btn_on{display:flex;width:90%;height:35px;margin:10px;justify-content: center;align-items: center;background-color: #2b2d31;color: white;font-weight: bolder;border-radius: 20px;box-shadow: 1px 1px 8px #1aec3fcf;}`;
+
     document.head.appendChild(style);
+    document.head.appendChild(style_on);
 
     let btn1 = document.createElement("button");
     btn1.innerText = "手动下载";
@@ -6867,10 +6872,12 @@
         // 如果已经在运行，那么停止它
         stopObserveAndDownload();
         btn2.innerText = "自动下载大图"; // 按钮文字变回原样
+        btn2.setAttribute("class", "Btn");
       } else {
         // 否则，开始运行
         download();
         btn2.innerText = "自动下载大图（已开启）"; // 按钮文字变成：已开启
+        btn2.setAttribute("class", "Btn_on");
       }
       btn2isRunning = !btn2isRunning; // 切换运行状态
     });
@@ -6888,6 +6895,7 @@
         // 如果已经在运行，那么停止它
         clearInterval(intervalId);
         btn3.innerText = "自动选大图"; // 按钮文字变回原样
+        btn3.setAttribute("class", "Btn");
       } else {
         // 否则，开始运行
         let lastCheckedMessage = null;
@@ -6900,8 +6908,9 @@
             lastCheckedMessage = lastMsg;
             await clickButtons(lastMsg);
           }
-        }, 200); // 每200毫秒检查一次
+        }, 100); // 每100毫秒检查一次
         btn3.innerText = "自动选大图（已开启）"; // 按钮文字变成：已开启
+        btn3.setAttribute("class", "Btn_on");
       }
       isRunning = !isRunning; // 切换运行状态
     });

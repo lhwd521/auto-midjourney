@@ -62,7 +62,7 @@ class App:
         keyboard_listener = keyboard.Listener(on_press=self.on_key_press)
         keyboard_listener.start()
 
-        df = pd.read_excel(self.excel_path.get(), header=None)  # read the first row as data
+        df = pd.read_excel(self.excel_path.get(), header=None, usecols=[0])  # read the first row as data
         wait_time_after_enter = int(self.wait_time_after_enter.get())
         wait_time_after_paste = int(self.wait_time_after_paste.get())
         cmd_sum = int(self.cmd_sum.get())
