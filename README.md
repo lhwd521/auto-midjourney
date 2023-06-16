@@ -22,7 +22,8 @@ pip install pynput
 python main.py
 ```
 
-![image](https://github.com/lhwd521/auto-midjourney/assets/15196067/2527a4b5-cf06-4e22-ac72-eccf499ac340)
+![微信截图_20230616130857](https://github.com/lhwd521/auto-midjourney/assets/15196067/c2706a02-90fb-4586-926e-d5020c60363a)
+
 
 excel 第一列从上到下写入 midjourney 提示词
 
